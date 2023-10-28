@@ -17,19 +17,24 @@ const ListTodo = ({ setInput }) => {
   const dispatch = useDispatch();
   // console.log(todos);
 
-  const removeTodo = (id) => {
-    dispatch(deleteTodo(id));
-    // console.log(id);
-  };
-
-  const handleComplete = (id) => {
-    dispatch(completeTodo(id));
-
+  const refreshTodo = () => {
     if (filter === "active") {
       dispatch(filterTodo(ACTIVE));
     } else if (filter === "completed") {
       dispatch(filterTodo(COMPLETED));
     }
+  };
+
+  const removeTodo = (id) => {
+    dispatch(deleteTodo(id));
+    // console.log(id);
+    refreshTodo();
+  };
+
+  const handleComplete = (id) => {
+    dispatch(completeTodo(id));
+
+    refreshTodo();
   };
 
   const handleEdit = (id, value) => {
