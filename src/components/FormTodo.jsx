@@ -1,11 +1,15 @@
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTodo, editTodo } from "../redux/reducers/todo-reducer";
+import { addTodo, editTodo, filterTodo } from "../redux/reducers/todo-reducer";
 import ListTodo from "./listTodo";
 
 const FormTodo = () => {
-  const { isEdit, todos } = useSelector((state) => state.todos);
+  const { isEdit, todos, filter, filterType } = useSelector(
+    (state) => state.todos
+  );
+  const { ALL, ACTIVE, COMPLETED } = filterType;
+
   const [input, setInput] = useState("");
   const dispatch = useDispatch();
 
@@ -20,7 +24,14 @@ const FormTodo = () => {
     } else {
       dispatch(editTodo(input));
     }
+
     setInput("");
+
+    if (filter === "active") {
+      dispatch(filterTodo(ACTIVE));
+    } else if (filter === "completed") {
+      dispatch(filterTodo(COMPLETED));
+    }
   };
 
   return (
@@ -45,6 +56,7 @@ const FormTodo = () => {
         </button>
       </form>
 
+      {/* render list todo */}
       <ListTodo setInput={setInput} />
     </div>
   );

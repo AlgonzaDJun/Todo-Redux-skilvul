@@ -6,6 +6,13 @@ const initialValue = {
     { id: 2, value: "berbicara", completed: true, isEdit: false },
   ],
   isEdit: null,
+  filter: "all",
+  filterTodos: [],
+  filterType: {
+    ALL: "FILTER_ALL",
+    ACTIVE: "FILTER_ACTIVE",
+    COMPLETED: "FILTER_COMPLETED",
+  },
 };
 
 function todoReducer(state = initialValue, action) {
@@ -41,11 +48,13 @@ function todoReducer(state = initialValue, action) {
           return item;
         }),
       };
+
     case "START_EDIT":
       return {
         ...state,
         isEdit: action.payload,
       };
+
     case "EDIT_TODO":
       const updatedTodos = state.todos.map((todo) => {
         if (todo.id === state.isEdit) {
@@ -59,7 +68,31 @@ function todoReducer(state = initialValue, action) {
         todos: updatedTodos,
         isEdit: null,
       };
+    case "FILTER_ACTIVE":
+      const activeTodos = state.todos.filter(
+        (item) => item.completed === false
+      );
 
+      return {
+        ...state,
+        filterTodos: activeTodos,
+        filter: "active",
+      };
+    case "FILTER_ALL":
+      return {
+        ...state,
+        filterTodos: [],
+        filter: "all",
+      };
+    case "FILTER_COMPLETED":
+      const completedTodos = state.todos.filter(
+        (item) => item.completed === true
+      );
+      return {
+        ...state,
+        filterTodos: completedTodos,
+        filter: "completed",
+      };
     default:
       return state;
   }
@@ -97,6 +130,12 @@ export function startEdit(id) {
   return {
     type: "START_EDIT",
     payload: id,
+  };
+}
+
+export function filterTodo(filter) {
+  return {
+    type: filter,
   };
 }
 
