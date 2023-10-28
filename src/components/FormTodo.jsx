@@ -1,8 +1,11 @@
+/* eslint-disable no-unused-vars */
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addTodo } from "../redux/reducers/todo-reducer";
+import { useDispatch, useSelector } from "react-redux";
+import { addTodo, editTodo } from "../redux/reducers/todo-reducer";
+import ListTodo from "./listTodo";
 
 const FormTodo = () => {
+  const { isEdit, todos } = useSelector((state) => state.todos);
   const [input, setInput] = useState("");
   const dispatch = useDispatch();
 
@@ -12,7 +15,11 @@ const FormTodo = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(addTodo(input));
+    if (!isEdit) {
+      dispatch(addTodo(input));
+    } else {
+      dispatch(editTodo(input));
+    }
     setInput("");
   };
 
@@ -34,9 +41,11 @@ const FormTodo = () => {
           className="px-3 py-2 rounded-md bg-sky-700 hover:bg-sky-900 ml-4 text-white"
           onClick={handleSubmit}
         >
-          Add
+          {isEdit ? "Edit" : "Add"}
         </button>
       </form>
+
+      <ListTodo setInput={setInput} />
     </div>
   );
 };

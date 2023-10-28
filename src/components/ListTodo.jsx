@@ -1,15 +1,29 @@
-/* eslint-disable no-unused-vars */
 import { useDispatch, useSelector } from "react-redux";
-import { deleteTodo } from "../redux/reducers/todo-reducer";
+import {
+  completeTodo,
+  deleteTodo,
+  startEdit,
+} from "../redux/reducers/todo-reducer";
 
-const ListTodo = () => {
+import PropTypes from "prop-types";
+
+const ListTodo = ({ setInput }) => {
   const { todos } = useSelector((state) => state.todos);
   const dispatch = useDispatch();
-  console.log(todos);
+  // console.log(todos);
 
   const removeTodo = (id) => {
     dispatch(deleteTodo(id));
     // console.log(id);
+  };
+
+  const handleComplete = (id) => {
+    dispatch(completeTodo(id));
+  };
+
+  const handleEdit = (id, value) => {
+    setInput(value);
+    dispatch(startEdit(id));
   };
 
   return (
@@ -34,12 +48,39 @@ const ListTodo = () => {
             className=" grow border-2 p-2 border-slate-400 flex gap-3 items-center"
             key={item.id}
           >
-            <button className="border-2 p-2 border-slate-400"></button>
-            <p className="grow text-xl cursor-pointer text-slate-700">
+            <button
+              className={`border-2 ${
+                !item.completed ? "p-2.5" : ""
+              }  border-slate-400`}
+            >
+              {item.completed ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              ) : (
+                ""
+              )}
+            </button>
+            <p
+              className={
+                "grow text-xl cursor-pointer text-slate-700" +
+                (item.completed ? " line-through" : "")
+              }
+              onClick={() => handleComplete(item.id)}
+            >
               {item.value}
             </p>
             <div className="icon flex gap-2 items-center">
-              <button id="edit">
+              <button id="edit" onClick={() => handleEdit(item.id, item.value)}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -70,6 +111,10 @@ const ListTodo = () => {
       </ul>
     </div>
   );
+};
+
+ListTodo.propTypes = {
+  setInput: PropTypes.func.isRequired,
 };
 
 export default ListTodo;
