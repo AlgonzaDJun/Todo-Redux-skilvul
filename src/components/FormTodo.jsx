@@ -19,6 +19,15 @@ const FormTodo = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    if (input === "") {
+      setAlert(true);
+
+      setTimeout(() => {
+        setAlert(false)
+      }, 2000);
+      return false;
+    }
     if (!isEdit) {
       dispatch(addTodo(input));
     } else {
@@ -34,11 +43,29 @@ const FormTodo = () => {
     }
   };
 
+  const [alert, setAlert] = useState(false);
+
   return (
     <div className="pt-20">
       <h1 className="font-semibold text-4xl text-slate-600 mb-10">
         What&apos;s the plan for today
       </h1>
+
+      {/* <button onClick={() => setAlert(!alert)}>alert woiiiii</button> */}
+
+      <div
+        role="alert"
+        className={`absolute top-5 right-10 transition-all duration-500 ease-in-out shadow-2xl drop-shadow-lg ${
+          alert === true ? "opacity-100" : "opacity-0"
+        }`}
+      >
+        <div className="bg-red-500 text-white font-bold rounded-t px-4 py-2">
+          ERROR
+        </div>
+        <div className="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+          <p>Input tidak boleh kosong.</p>
+        </div>
+      </div>
 
       <form className="flex">
         <input
