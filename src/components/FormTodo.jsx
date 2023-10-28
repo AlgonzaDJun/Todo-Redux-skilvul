@@ -1,5 +1,5 @@
 const FormTodo = () => {
-    
+
   return (
     <div className="pt-20">
       <h1 className="font-semibold text-4xl text-slate-600 mb-10">
@@ -8,11 +8,11 @@ const FormTodo = () => {
 
       <form className="flex">
         <input
-          className="grow rounded-md p-3"
+          className="grow rounded-md p-3 border-2 border-slate-400 bg-transparent text-slate-700"
           type="text"
           placeholder="what to do"
         />
-        <button className="px-3 py-2 rounded-md bg-sky-700 ml-4 text-white">
+        <button className="px-3 py-2 rounded-md bg-sky-700 hover:bg-sky-900 ml-4 text-white">
           Add
         </button>
       </form>
