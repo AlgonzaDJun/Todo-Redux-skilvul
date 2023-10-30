@@ -1,4 +1,4 @@
-import FormTodo from "./components/formTodo";
+import FormTodo from "./components/FormTodo";
 
 function App() {
   return (

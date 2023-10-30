@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTodo, editTodo, filterTodo } from "../redux/reducers/todo-reducer";
-import ListTodo from "./listTodo";
+import ListTodo from "./ListTodo";
 
 const FormTodo = () => {
   const { isEdit, todos, filter, filterType } = useSelector(
